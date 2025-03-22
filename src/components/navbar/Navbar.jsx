@@ -3,6 +3,7 @@ import Logo from "../../assets/logo.png"
 import { IoMdCart, IoMdSearch } from 'react-icons/io'
 import DarkMode from './DarkMode'
 import { FaRegCaretSquareDown } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const Menu = [
     {
@@ -58,13 +59,13 @@ const Navbar = ({handleOrderPopup}) => {
   return (
     <div className='shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40'>
         {/* Upper Navbar */}
-        <div className='bg-primary/40 py-2'>
+        <div className='bg-primary/40 py-2 fixed top-0 left-0 w-full z-50'>
             <div className='container flex justify-between items-center'>
                 <div>
-                    <a href="#" className='font-bold text-2xl sm:text-3xl flex gap-2'>
+                    <Link to="/" className='font-bold text-2xl sm:text-3xl flex gap-2'>
                        <img src={Logo} alt="Logo" className='w-10'/> 
                        Shopsy
-                    </a>
+                    </Link>
                 </div>
                 {/* Search bar and order button */}
                 <div className='flex items-center justify-between gap-4'>
@@ -91,30 +92,30 @@ const Navbar = ({handleOrderPopup}) => {
             </div>
         </div>
         {/* Lower navbar */}
-        <div className='flex justify-center'>
+        <div className='flex justify-center mt-12 shadow-md py-1'>
             <ul className='hidden sm:flex justify-between gap-4 items-center'>
                 {
                     Menu.map((data)=>(
-                        <li key={data.id}><a href={data.link} className='inline-block px-4 hover:text-primary duration-200'>{data.name}</a></li>
+                        <li key={data.id}><Link to={data.link} className='inline-block px-4 hover:text-primary duration-200'>{data.name}</Link></li>
                     ))
                 }
                 {/* Simple dropdown */}
                 <li className='group relative cursor-pointer'>
-                    <a href="#" className='group flex items-center gap-[2px] py-2 hover:text-primary'>
+                    <Link to="#" className='group flex items-center gap-[2px] py-2 hover:text-primary'>
                         Trending Products
                         <span className=''>
                             <FaRegCaretSquareDown className='transition-all duration-200 group-hover:rotate-180'/>
                         </span>
-                    </a>
+                    </Link>
                     <div className='absolute z-[9999] hidden group-hover:block w-44 rounded-md bg-white p-2 text-black shadow-md'>
                         <ul>
                             {
                                 DropdownLinks.map((data)=>(
                                     <li key={data.id} className=''>
-                                        <a href={data.link}
+                                        <Link to={data.link}
                                         className='hover:bg-primary/20 inline-block w-full rounded-md p-2'>
                                             {data.name}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))
                             }
