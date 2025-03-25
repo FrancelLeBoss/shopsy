@@ -11,7 +11,7 @@ import TopProducts from './components/TopProducts/TopProducts'
 import Banner from './components/Banner/Banner'
 import Subscribe from './components/Subscribe/Subscribe'
 import Testimony from './components/Testimony/Testimony'
-import { Shop } from './pages/shop'
+import { KidsWair } from './pages/KidsWair'
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 
@@ -39,7 +39,7 @@ useEffect(() => {
 
       <Routes>
           <Route path="/" element={<Home handleOrderPopup={handleOrderPopup} />} />
-          <Route path="/shop" element={<Shop/>} />
+          <Route path="/kids-wear" element={<KidsWair/>} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
        <Footer/>

@@ -9,27 +9,27 @@ const Menu = [
     {
         id:1,
         name:"Home",
-        link:"/#"
+        link:"/"
     },
     {
         id:2,
         name:"Top Rated",
-        link:"/#"
+        link:"/top-rated"
     },
     {
         id:3,
         name:"Kids Wear",
-        link:"/#"
+        link:"/kids-wear"
     },
     {
         id:4,
         name:"Mens Wear",
-        link:"/#"
+        link:"/mens-wear"
     },
     {
         id:5,
         name:"Electronics",
-        link:"/#"
+        link:"/electronics"
     },
 //     {
 //         id:6,
@@ -59,7 +59,7 @@ const Navbar = ({handleOrderPopup}) => {
   return (
     <div className='shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40'>
         {/* Upper Navbar */}
-        <div className='bg-primary/40 py-2 fixed top-0 left-0 w-full z-50'>
+        <div className='bg-primary/40 py-2'>
             <div className='container flex justify-between items-center'>
                 <div>
                     <Link to="/" className='font-bold text-2xl sm:text-3xl flex gap-2'>
@@ -92,7 +92,7 @@ const Navbar = ({handleOrderPopup}) => {
             </div>
         </div>
         {/* Lower navbar */}
-        <div className='flex justify-center mt-12 shadow-md py-1'>
+        <div className='flex justify-center'>
             <ul className='hidden sm:flex justify-between gap-4 items-center'>
                 {
                     Menu.map((data)=>(
