@@ -6,172 +6,215 @@ import Image4 from "../assets/women/women4.jpg";
 import Image5 from "../assets/women/women3.jpg";
 import { FiFilter } from "react-icons/fi";
 import { BiDownArrowAlt } from "react-icons/bi";
-const ProductsData =[
-    {
-      id: 1,
-      title: "Women Ethnic",
-      img: Image1,
-      colors: [Image1, Image2, Image3],
-      color: "White",
-      stars: 5,
-      price: 470,
-      short_desc: "This is perfect for winter",
-      discount: 0,
-      sub_categorie: "dress",
-    },
-    {
-      id: 2,
-      title: "Women Western",
-      img: Image2,
-      colors: [Image2, Image4, Image1, Image3],
-      color: "Red",
-      stars: 4.5,
-      price: 1200,
-      short_desc: "This is perfect for winter",
-      discount: 33,
-      sub_categorie: "dress",
-    },
-    {
-      id: 3,
-      title: "Goggles",
-      img: Image3,
-      colors: [Image3, Image5, Image2, Image1],
-      color: "Brown",
-      stars: 4.7,
-      price: 430,
-      short_desc: "This is perfect for winter",
-      discount: 0,
-      sub_categorie: "accessories",
-    },
-    {
-      id: 4,
-      title: "Printed T-Shirt",
-      img: Image4,
-      colors: [Image4, Image5, Image2, Image3],
-      color: "Yellow",
-      stars: 4.4,
-      price: 600,
-      short_desc: "This is perfect for winter",
-      discount: 0,
-      sub_categorie: "t-shirt",
-    },
-    {
-      id: 5,
-      title: "Fashion T-Shirt",
-      img: Image1,
-      colors: [Image1, Image4, Image2, Image3],
-      color: "Pink",
-      stars: 4.5,
-      price: 750,
-      short_desc: "This is perfect for winter",
-      discount: 0,
-      sub_categorie: "t-shirt",
-    },
-    {
-      id: 6,
-      title: "Fashion T-Shirt",
-      img: Image2,
-      colors: [Image2, Image5, Image1, Image3],
-      color: "Pink",
-      stars: 4.5,
-      price: 700,
-      short_desc: "This is perfect for winter",
-      discount: 20,
-      sub_categorie: "t-shirt",
-    },
-    {
-      id: 7,
-      title: "Fashion T-Shirt",
-      img: Image5,
-      colors: [Image5, Image2, Image1, Image3],
-      color: "Pink",
-      stars: 4.5,
-      price: 510,
-      short_desc: "This is perfect for winter",
-      discount: 40,
-      sub_categorie: "t-shirt",
-    },
-    {
-      id: 8,
-      title: "Fashion T-Shirt",
-      img: Image5,
-      color: "Pink",
-      colors: [Image5, Image4, Image1, Image3],
-      stars: 4.5,
-      price: 400,
-      aosDelay: 800,
-      short_desc: "This is perfect for winter",
-      discount: 0,
-      sub_categorie: "t-shirt",
-    },
-    {
-      id: 9,
-      title: "Fashion T-Shirt",
-      img: Image5,
-      colors: [Image5, Image3, Image2, Image4],
-      color: "Pink",
-      stars: 4.5,
-      price: 200,
-      short_desc: "This is perfect for winter",
-      discount: 10,
-      sub_categorie: "t-shirt",
-    },
-    {
-      id: 10,
-      title: "Women Ethnic",
-      img: Image1,
-      colors: [Image1, Image4, Image2, Image3],
-      color: "White",
-      stars: 5,
-      price: 300,
-      short_desc: "This is perfect for winter",
-      discount: 0,
-      sub_categorie: "dress",
-    },
-    {
-      id: 11,
-      title: "Women Ethnic",
-      img: Image1,
-      colors: [Image1, Image5, Image2, Image3],
-      color: "White",
-      stars: 5,
-      price: 100,
-      short_desc: "This is perfect for winter",
-      discount: 30,
-      sub_categorie: "dress",
-    },
-  ]  
+import { GrDown, GrUp } from "react-icons/gr";
+import CheckboxFilter from "../components/general/CheckBox";
+const ProductsData = [
+  {
+    id: 1,
+    title: "Women Ethnic",
+    img: Image1,
+    colors: [Image1, Image2, Image3],
+    color: "White",
+    stars: 5,
+    price: 470,
+    short_desc: "This is perfect for winter",
+    discount: 0,
+    sub_categorie: "dress",
+    gender: "girls",
+  },
+  {
+    id: 2,
+    title: "Women Western",
+    img: Image2,
+    colors: [Image2, Image4, Image1, Image3],
+    color: "Red",
+    stars: 4.5,
+    price: 1200,
+    short_desc: "This is perfect for winter",
+    discount: 33,
+    sub_categorie: "dress",
+    gender: "girls",
+  },
+  {
+    id: 3,
+    title: "Goggles",
+    img: Image3,
+    colors: [Image3, Image5, Image2, Image1],
+    color: "Brown",
+    stars: 4.7,
+    price: 430,
+    short_desc: "This is perfect for winter",
+    discount: 0,
+    sub_categorie: "accessories",
+    gender: "both",
+  },
+  {
+    id: 4,
+    title: "Printed T-Shirt",
+    img: Image4,
+    colors: [Image4, Image5, Image2, Image3],
+    color: "Yellow",
+    stars: 4.4,
+    price: 600,
+    short_desc: "This is perfect for winter",
+    discount: 0,
+    sub_categorie: "t-shirt",
+    gender: "boys",
+  },
+  {
+    id: 5,
+    title: "Fashion T-Shirt",
+    img: Image1,
+    colors: [Image1, Image4, Image2, Image3],
+    color: "Pink",
+    stars: 4.5,
+    price: 750,
+    short_desc: "This is perfect for winter",
+    discount: 0,
+    sub_categorie: "t-shirt",
+    gender: "girls",
+  },
+  {
+    id: 6,
+    title: "Fashion T-Shirt",
+    img: Image2,
+    colors: [Image2, Image5, Image1, Image3],
+    color: "Pink",
+    stars: 4.5,
+    price: 700,
+    short_desc: "This is perfect for winter",
+    discount: 20,
+    sub_categorie: "t-shirt",
+    gender: "boys",
+  },
+  {
+    id: 7,
+    title: "Fashion T-Shirt",
+    img: Image5,
+    colors: [Image5, Image2, Image1, Image3],
+    color: "Pink",
+    stars: 4.5,
+    price: 510,
+    short_desc: "This is perfect for winter",
+    discount: 40,
+    sub_categorie: "t-shirt",
+    gender: "both",
+  },
+  {
+    id: 8,
+    title: "Fashion T-Shirt",
+    img: Image5,
+    color: "Pink",
+    colors: [Image5, Image4, Image1, Image3],
+    stars: 4.5,
+    price: 400,
+    aosDelay: 800,
+    short_desc: "This is perfect for winter",
+    discount: 0,
+    sub_categorie: "t-shirt",
+    gender: "girls",
+  },
+  {
+    id: 9,
+    title: "Fashion T-Shirt",
+    img: Image5,
+    colors: [Image5, Image3, Image2, Image4],
+    color: "Pink",
+    stars: 4.5,
+    price: 200,
+    short_desc: "This is perfect for winter",
+    discount: 10,
+    sub_categorie: "t-shirt",
+    gender: "both",
+  },
+  {
+    id: 10,
+    title: "Women Ethnic",
+    img: Image1,
+    colors: [Image1, Image4, Image2, Image3],
+    color: "White",
+    stars: 5,
+    price: 300,
+    short_desc: "This is perfect for winter",
+    discount: 0,
+    sub_categorie: "dress",
+    gender: "girls",
+  },
+  {
+    id: 11,
+    title: "Women Ethnic",
+    img: Image1,
+    colors: [Image1, Image5, Image2, Image3],
+    color: "White",
+    stars: 5,
+    price: 100,
+    short_desc: "This is perfect for winter",
+    discount: 30,
+    sub_categorie: "dress",
+    gender: "boys",
+  },
+];
+
 const ITEMS_PER_PAGE = 6
 
 export const KidsWair = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [currentPage, setCurrentPage] = useState(1)
-  //const totalPages = Math.ceil(ProductsData.length / ITEMS_PER_PAGE);
+  const [genderClicked,setGenderClicked] = useState(false)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  //const displayedProducts = ProductsData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   const [productHovered, setProductHovered] = useState(-1);
   const [photoHovered, setPhotoHovered] = useState(null)
   const [filtered,setFiltered] = useState(null)
-  const [filteredProduct, setFilteredProduct] = useState(ProductsData)
   const [selected, setSelected] = useState(null);
-  const totalPages = Math.ceil((filtered ? ProductsData.filter(product => product.sub_categorie === filtered.value).length : ProductsData.length) / ITEMS_PER_PAGE);
-  const new_price = (_price, percentage) => {
+  const [genderFilter, setGenderFilter] = useState([])
+  
+  const totalPages = () => {
+    let ProductFiltered = ProductsData
+    if(filtered && filtered.value){
+      ProductFiltered = ProductFiltered.filter(p => p.sub_categorie === filtered.value)
+    }
+    if(genderFilter.length>0){
+      ProductFiltered = ProductFiltered.filter(p => genderFilter.includes(p.gender))
+    }
+    return Math.ceil(ProductFiltered.length/ITEMS_PER_PAGE)
+    };
+
+  const subCategoryCounts = ProductsData.reduce((acc, product) => {
+        acc[product.sub_categorie] = (acc[product.sub_categorie] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Transformer l'objet en tableau de paires [sub_categorie, count]
+   const subCategoryArray = Object.entries(subCategoryCounts);
+   const new_price = (_price, percentage) => {
     return _price - (_price * (percentage / 100));
     };
     const displayedProducts = () => {
-        if (filtered) {
-            return ProductsData.filter(product => product.sub_categorie === filtered.value);
-        }
-        return ProductsData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-    }
+      let filteredProducts = ProductsData;
+  
+      if (filtered) {
+          filteredProducts = filteredProducts.filter(product => product.sub_categorie === filtered.value);
+      }
+  
+      if (genderFilter.length > 0) {
+          filteredProducts = filteredProducts.filter(product => genderFilter.includes(product.gender));
+      }
+  
+      return filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  };
+
+    const handleFilterChange = (newSelected) => {
+      setGenderFilter(newSelected);
+  };
+
     const categoryCounts = ProductsData.reduce((acc, product) => {
         acc[product.sub_categorie] = (acc[product.sub_categorie] || 0) + 1;
         return acc;
       }, {});
-      
+    
       useEffect(() => {
         setCurrentPage(1); // Remettre à la première page après filtrage
-    }, [filtered]);
+    }, [filtered,genderFilter]);
 
   return (
     <div className="bg-gray-100 min-h-screen pb-4">
@@ -187,8 +230,8 @@ export const KidsWair = () => {
 
         {/* Title & Sorting */}
         <div className="flex justify-between items-center mt-3">
-          <h1 className="text-3xl font-medieum">Find everything you need for your children</h1>
-          <div className="flex items-center gap-4 text-lg font-normal">
+          <h1 className="lg:text-3xl md:text-2xl text-xl font-medium">Everything your child needs</h1>
+          <div className="flex items-center gap-4 text-base md:text-lg font-normal">
             <button
               className="flex items-center gap-2 cursor-pointer hover:bg-primary/60 bg-gray-200 px-3 py-1 rounded-md"
               onClick={() => setShowFilters(!showFilters)}
@@ -211,61 +254,32 @@ export const KidsWair = () => {
                 <div className="">
                     <h2 className="text-lg font-semibold">Filters</h2>
                     <ul className="mt-2 space-y-2 text-gray-700 fon">
-                        <li className={`cursor-pointer hover:text-primary ${
-                                selected === 't-shirt' ? 'text-primary' : ''
-                            }`} onClick={()=>{
-                            if(filtered?.value != 't-shirt'){
-                                setFiltered({type:'sub_categorie', value:'t-shirt'})
-                                setSelected('t-shirt');
-                            }
-                            else{
-                                setFiltered(null)
-                                setSelected(null);
-                            }
-                            }}>
-                            T-Shirts ({categoryCounts["t-shirt"] || 0})
-                        </li>
-                        <li className={`cursor-pointer hover:text-primary ${
-                                selected === 'dress' ? 'text-primary' : ''
-                            }`} onClick={()=>{
-                            if(filtered?.value != 'dress'){
-                                setFiltered({type:'sub_categorie', value:'dress'})
-                                setSelected('dress');
-                            }
-                            else{
-                                setFiltered(null)
-                                setSelected(null);
-                            }
-                            }}>
-                            Dresses ({categoryCounts["dress"] || 0})
-                        </li>
-                        <li className={`cursor-pointer hover:text-primary ${
-                                selected === 'accessories' ? 'text-primary' : ''
-                            }`} onClick={()=>{
-                            if(filtered?.value != 'accessories'){
-                                setFiltered({type:'sub_categorie', value:'accessories'})
-                                setSelected('accessories');
-                            }
-                            else{
-                                setFiltered(null)
-                                setSelected(null);
-                            }
-                            }}>                            Accessories ({categoryCounts["accessories"] || 0})
-                        </li>
-                        <li className={`cursor-pointer hover:text-primary ${
-                                selected === 'shoes' ? 'text-primary' : ''
-                            }`} onClick={()=>{
-                            if(filtered?.value != 'shoes'){
-                                setFiltered({type:'sub_categorie', value:'shoes'})
-                                setSelected('shoes');
-                            }
-                            else{
-                                setFiltered(null)
-                                setSelected(null);
-                            }
-                            }}>                               Shoes ({categoryCounts["shoes"] || 0})
-                        </li>
+                        {
+                            subCategoryArray.map((category,index) => (
+                                <li key={index} className={`cursor-pointer hover:text-primary capitalize ${
+                                    selected === category[0] ? 'text-primary' : ''
+                                }`} onClick={()=>{
+                                if(filtered?.value !=  category[0]){
+                                    setFiltered({type:'sub_categorie', value:category[0]})
+                                    setSelected(category[0]);
+                                }
+                                else{
+                                    setFiltered(null)
+                                    setSelected(null);
+                                }
+                                }}>
+                                 {`${category[0]} (${category[1] || 0})`}
+                            </li>
+                            ))
+                        }
                     </ul>
+                </div>
+                <hr className="font-medium text-gray-700"/>
+                <div className="flex flex-col cursor-pointer gap-2">
+                  <div className="flex justify-between font-medium" onClick={() => setGenderClicked(!genderClicked)}><span>Gender</span>{genderClicked?<GrUp/> :<GrDown/> }</div>
+                  <div className={`${genderClicked ?'block':'hidden'} `}>
+                  <CheckboxFilter  onFilterChange={handleFilterChange}/>
+                  </div>
                 </div>
                 <hr className="font-medium text-gray-700"/>
             </div>
@@ -303,7 +317,7 @@ export const KidsWair = () => {
                 </div>)}
                 {/* Affichage conditionnel au survol */}
                 {productHovered === item.id && (
-                    <div className="mt-2 p-2 bg-gray-200 rounded-md text-sm text-gray-700 flex flex-col gap-2" 
+                    <div className="mt-2 p-2 bg-gray-50 rounded-md text-sm text-gray-700 flex flex-col gap-2" 
                     onMouseLeave={() => setProductHovered(-1)}>
                         <div className="flex gap-2 items-center">
                             {
@@ -339,11 +353,11 @@ export const KidsWair = () => {
           >
             Prev
           </button>
-          <span className="px-4 py-1 bg-white border rounded-md">{currentPage} / {totalPages}</span>
+          <span className="px-4 py-1 bg-white border rounded-md">{currentPage} / {totalPages()}</span>
           <button
             className="px-3 py-1 bg-gray-300 rounded-md disabled:opacity-50"
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages()))}
+            disabled={currentPage === totalPages()}
           >
             Next
           </button>
