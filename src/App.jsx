@@ -3,15 +3,10 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Navbar from './components/navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import Popup from './components/Popup/Popup'
-import Hero from './components/Hero/Hero'
-import Products from './components/Products/Products'
 import AOS from "aos"
 import "aos/dist/aos.css"
-import TopProducts from './components/TopProducts/TopProducts'
-import Banner from './components/Banner/Banner'
-import Subscribe from './components/Subscribe/Subscribe'
-import Testimony from './components/Testimony/Testimony'
 import { KidsWair } from './pages/KidsWair'
+import Product  from './pages/Product'
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 
@@ -40,6 +35,7 @@ useEffect(() => {
       <Routes>
           <Route path="/" element={<Home handleOrderPopup={handleOrderPopup} />} />
           <Route path="/kids-wear" element={<KidsWair/>} />
+          <Route path="/product/:productId" element={<Product/>} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
        <Footer/>
