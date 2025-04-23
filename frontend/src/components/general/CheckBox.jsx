@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const CheckboxFilter = ({ options = ["boys", "girls", "both"], onFilterChange, extra = "", uniqueSelection = false}) => {
+const CheckboxFilter = ({ labels = ["Boys","Girls","Both"],options = ["m", "f", "b"], onFilterChange, extra = "", uniqueSelection = false}) => {
     const [selected, setSelected] = useState(uniqueSelection ? "" : []);
 
     const handleCheckboxChange = (option) => {
@@ -18,15 +18,15 @@ const CheckboxFilter = ({ options = ["boys", "girls", "both"], onFilterChange, e
 
     return (
         <div className="flex flex-col gap-2">
-            {options.map((option) => (
-                <label key={option} className={`flex items-center gap-2 cursor-pointer capitalize dark:text-gray-400`} >
+            {options.map((option, i) => (
+                <label key={options.length-i} className={`flex items-center gap-2 cursor-pointer capitalize dark:text-gray-400`} >
                     <input
                         type="checkbox"
                         checked={uniqueSelection ? selected === option : selected.includes(option)}
                         onChange={() => handleCheckboxChange(option)}
                         className="w-5 h-5 accent-primary"
                     />
-                     {extra && <span className="text-base">{extra}</span>}{option} 
+                     {extra && <span className="text-base">{extra}</span>}{labels[i]} 
                 </label>
             ))}
         </div>

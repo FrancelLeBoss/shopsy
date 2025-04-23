@@ -1,172 +1,25 @@
 import React, { useState, useEffect } from "react";
-import Image1 from "../assets/women/women.png";
-import Image2 from "../assets/women/women2.jpg";
-import Image3 from "../assets/women/women3.jpg";
-import Image4 from "../assets/women/women4.jpg";
-import Image5 from "../assets/women/women3.jpg";
 import { FiFilter } from "react-icons/fi";
 import { BiDownArrowAlt } from "react-icons/bi";
 import { GrDown, GrUp } from "react-icons/gr";
 import CheckboxFilter from "../components/general/CheckBox";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-const ProductsData = [
-  {
-    id: 1,
-    title: "Women Ethnic",
-    img: Image1,
-    colors: [Image1, Image2, Image3],
-    color: "White",
-    stars: 5,
-    price: 470,
-    short_desc: "This is perfect for winter",
-    discount: 0,
-    sub_categorie: "dress",
-    gender: "girls",
-  },
-  {
-    id: 2,
-    title: "Women Western",
-    img: Image2,
-    colors: [Image2, Image4, Image1, Image3],
-    color: "Red",
-    stars: 4.5,
-    price: 1200,
-    short_desc: "This is perfect for winter",
-    discount: 33,
-    sub_categorie: "dress",
-    gender: "girls",
-  },
-  {
-    id: 3,
-    title: "Goggles",
-    img: Image3,
-    colors: [Image3, Image5, Image2, Image1],
-    color: "Brown",
-    stars: 4.7,
-    price: 430,
-    short_desc: "This is perfect for winter",
-    discount: 0,
-    sub_categorie: "accessories",
-    gender: "both",
-  },
-  {
-    id: 4,
-    title: "Printed T-Shirt",
-    img: Image4,
-    colors: [Image4, Image5, Image2, Image3],
-    color: "Yellow",
-    stars: 4.4,
-    price: 600,
-    short_desc: "This is perfect for winter",
-    discount: 0,
-    sub_categorie: "t-shirt",
-    gender: "boys",
-  },
-  {
-    id: 5,
-    title: "Fashion T-Shirt",
-    img: Image1,
-    colors: [Image1, Image4, Image2, Image3],
-    color: "Pink",
-    stars: 4.5,
-    price: 750,
-    short_desc: "This is perfect for winter",
-    discount: 0,
-    sub_categorie: "t-shirt",
-    gender: "girls",
-  },
-  {
-    id: 6,
-    title: "Fashion T-Shirt",
-    img: Image2,
-    colors: [Image2, Image5, Image1, Image3],
-    color: "Pink",
-    stars: 4.5,
-    price: 700,
-    short_desc: "This is perfect for winter",
-    discount: 20,
-    sub_categorie: "t-shirt",
-    gender: "boys",
-  },
-  {
-    id: 7,
-    title: "Fashion T-Shirt",
-    img: Image5,
-    colors: [Image5, Image2, Image1, Image3],
-    color: "Pink",
-    stars: 4.5,
-    price: 510,
-    short_desc: "This is perfect for winter",
-    discount: 40,
-    sub_categorie: "t-shirt",
-    gender: "both",
-  },
-  {
-    id: 8,
-    title: "Fashion T-Shirt",
-    img: Image5,
-    color: "Pink",
-    colors: [Image5, Image4, Image1, Image3],
-    stars: 4.5,
-    price: 400,
-    aosDelay: 800,
-    short_desc: "This is perfect for winter",
-    discount: 0,
-    sub_categorie: "t-shirt",
-    gender: "girls",
-  },
-  {
-    id: 9,
-    title: "Fashion T-Shirt",
-    img: Image5,
-    colors: [Image5, Image3, Image2, Image4],
-    color: "Pink",
-    stars: 4.5,
-    price: 200,
-    short_desc: "This is perfect for winter",
-    discount: 10,
-    sub_categorie: "t-shirt",
-    gender: "both",
-  },
-  {
-    id: 10,
-    title: "Women Ethnic",
-    img: Image1,
-    colors: [Image1, Image4, Image2, Image3],
-    color: "White",
-    stars: 5,
-    price: 300,
-    short_desc: "This is perfect for winter",
-    discount: 0,
-    sub_categorie: "dress",
-    gender: "girls",
-  },
-  {
-    id: 11,
-    title: "Women Ethnic",
-    img: Image1,
-    colors: [Image1, Image5, Image2, Image3],
-    color: "White",
-    stars: 5,
-    price: 100,
-    short_desc: "This is perfect for winter",
-    discount: 30,
-    sub_categorie: "dress",
-    gender: "boys",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
 
 const ITEMS_PER_PAGE = 6;
 
-export const new_price = (_price, percentage) => {
-    return _price - (_price * percentage) / 100;
+export const new_price = (price, discount) => {
+  if (!price || !discount) return 0;
+  return (price - (price * discount) / 100).toFixed(2);
 };
 
-export const KidsWair = () => {
+export const Boutique = ({_category}) => {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL; 
   const [showFilters, setShowFilters] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const user = useSelector((state) => state.user.user);
+  const cart = useSelector((state) => state.cart.cart);
   const [genderClicked, setGenderClicked] = useState(false);
   const [priceClicked, setPriceClicked] = useState(false);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -178,25 +31,72 @@ export const KidsWair = () => {
   const [priceFilter, setPriceFilter] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("");
   const [displaySorting, setDisplaySorting] = useState(true);
-  const [products, setProducts] = useState([]);
-
+  const [ProductsData, setProductsData] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [categoryDetails, setCategoryDetails] = useState({});
+  
   useEffect(() => {
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL; 
-    axios.get(`${apiBaseUrl}/products/`)
-      .then(response => setProducts(response.data))
+    axios.get(`${apiBaseUrl}api/products/category/${_category}/`)
+      .then(response => setProductsData(response.data))
       .catch(error => console.error("Error fetching data:", error));
-      console.log(products)
-  }, []);
+
+    axios.get(`${apiBaseUrl}api/categories/${_category}/subcategories`)
+      .then(response => setSubCategoryList(response.data))
+      .catch((error) => {
+        console.error("Error fetching subcategories:", error);
+      });
+
+    axios.get(`${apiBaseUrl}api/categories/${_category}/`)
+      .then(response => {
+        setCategoryDetails(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching category details:", error);
+      });
+
+  }, [_category]);
 
   useEffect(() => {
-    console.log(products); // Affiche les produits une fois qu'ils sont mis à jour
-  }, [products]);
+    if (user) {
+        axios
+            .get(`${apiBaseUrl}api/cart/${user?.id}/`)
+            .then(async (response) => {
+                const cartData = response.data;
+                console.log("User ", user?.id, " cart data: ", cartData);
+
+                // Récupérer les détails de chaque variante
+                const items = await Promise.all(
+                    cartData.map(async (item) => {
+                        const variantResponse = await axios.get(`${apiBaseUrl}api/products/variant/${item.variant}/`);
+                        const sizeResponse = await (await axios.get(`${apiBaseUrl}api/products/size/${item.size}/`))
+                        return {
+                            id: item.id,
+                            variant: variantResponse.data, // Stocker la variante entière
+                            size: sizeResponse.data, // Stocker la taille entière
+                            quantity: item.quantity,
+                        };
+                    })
+                );
+
+                // Dispatch pour mettre à jour le panier dans Redux
+                dispatch({ type: 'cart/updateCart', payload: items });
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }
+}, [user]);
+
+  const productsBySubCategory =(subCat)=>{
+    const filteredProducts = ProductsData.filter(
+      (product) => product.subCategory === subCat
+    );
+    return filteredProducts;
+  };
 
   const totalPages = () => {
     let ProductFiltered = ProductsData;
     if (filtered && filtered.value) {
       ProductFiltered = ProductFiltered.filter(
-        (p) => p.sub_categorie === filtered.value
+        (p) => p.subCategory === filtered.value
       );
     }
     if (genderFilter.length > 0) {
@@ -206,29 +106,23 @@ export const KidsWair = () => {
     }
     if (priceFilter.length > 0) {
       ProductFiltered = ProductFiltered.filter(
-        (p) => p.price <= Math.max(...priceFilter.map((v) => v || 0))
+        (p) => p?.variants[0]?.price <= Math.max(...priceFilter.map((v) => v || 0))
       );
     }
     return Math.ceil(ProductFiltered.length / ITEMS_PER_PAGE);
   };
 
-  const subCategoryCounts = ProductsData.reduce((acc, product) => {
-    acc[product.sub_categorie] = (acc[product.sub_categorie] || 0) + 1;
-    return acc;
-  }, {});
-
   const getHighestPrice = (products) => {
-    return Math.max(...products.map((p) => p.price || 0));
+    return Math.max(...products.map((p) => p?.variants[0]?.price || 0));
   };
   const getLowestPrice = (products) => {
-    return Math.min(...products.map((p) => p.price || 0));
+    return Math.min(...products.map((p) => p?.variants[0]?.price || 0));
   };
   const getMedianPrice = (products) => {
-    // Extraire les prix et filtrer les valeurs null/undefined
     const prices = products
-      .map((p) => p.price)
-      .filter((price) => price !== undefined && price !== null)
-      .sort((a, b) => a - b); // Trier les prix en ordre croissant
+      .map((p) => parseFloat(p?.variants[0]?.price) || 0)
+      .filter((price) => !isNaN(price))
+      .sort((a, b) => a - b);
 
     if (prices.length === 0) return 0; // Gérer le cas où il n'y a aucun prix
 
@@ -240,14 +134,30 @@ export const KidsWair = () => {
       ? prices[mid]
       : (prices[mid - 1] + prices[mid]) / 2;
   };
-  // Transformer l'objet en tableau de paires [sub_categorie, count]
-  const subCategoryArray = Object.entries(subCategoryCounts);
+
+const thereIsDiscount = (product) => {
+  if (!product?.variants || product.variants.length === 0) return [];
+
+  // Trouver la variante avec le plus grand rabais
+  return product.variants.reduce(
+    (maxDiscount, variant, index) => {
+      if (variant.discount > maxDiscount[0]) {
+        return [variant.discount, index];
+      }
+      return maxDiscount;
+    },
+    [0, -1] // Valeur initiale : [discount, index]
+  );
+};
+
   const displayedProducts = () => {
     let filteredProducts = ProductsData;
 
     if (filtered) {
       filteredProducts = filteredProducts.filter(
-        (product) => product.sub_categorie === filtered.value
+        (product) => {
+          return product.subCategory === filtered.value;
+        }
       );
     }
 
@@ -258,7 +168,7 @@ export const KidsWair = () => {
     }
     if (priceFilter.length > 0) {
       filteredProducts = filteredProducts.filter(
-        (p) => p.price <= Math.max(...priceFilter.map((v) => v || 0))
+        (p) => p?.variants[0]?.price <= Math.max(...priceFilter.map((v) => v || 0))
       );
     }
     return filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -279,14 +189,14 @@ export const KidsWair = () => {
     } else if (sortingCriteria === "by name") {
       return displayedProducts().sort((a, b) => a.title.localeCompare(b.title));
     } else if (sortingCriteria === "by price") {
-      return displayedProducts().sort((a, b) => a.price - b.price);
+      return displayedProducts().sort((a, b) => a?.variants[0]?.price - b?.variants[0]?.price);
     }
   };
 
-  const categoryCounts = ProductsData.reduce((acc, product) => {
-    acc[product.sub_categorie] = (acc[product.sub_categorie] || 0) + 1;
-    return acc;
-  }, {});
+  const indexOfMainImageOfvariant = (variant) => {
+    const index = variant.images.findIndex((image) => image.mainImage === true);
+    return index !== -1 ? index : 0; // Retourne l'index ou 0 si non trouvé
+  }
 
   useEffect(() => {
     setCurrentPage(1); // Remettre à la première page après filtrage
@@ -296,20 +206,20 @@ export const KidsWair = () => {
     <div className="bg-gray-100 min-h-screen pb-4 dark:bg-gray-950">
       {/* Header */}
       <div className="bg-primary/40 py-3">
-        <div className="text-xl text-secondary text-center font-semibold">
-          KIDS WEAR
+        <div className="text-xl text-secondary text-center font-semibold uppercase">
+        {categoryDetails?.title ? categoryDetails.title : "Loading..."}
         </div>
       </div>
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="text-sm text-gray-600 dark:text-gray-200 font-medium">
-          Home / Kids Wear
+        <div className="text-sm text-gray-600 dark:text-gray-200 font-medium capitalize">
+          Home / {categoryDetails?.title?categoryDetails.title:<span className="animate-pulse">Loading...</span>}
         </div>
 
         {/* Title & Sorting */}
         <div className="flex justify-between items-center mt-3">
           <h1 className="lg:text-3xl md:text-2xl text-xl font-medium">
-            Everything your child needs
+            {categoryDetails?.short_desc ? categoryDetails.short_desc + "("+ProductsData?.length+")" : "Loading..."}
           </h1>
           <div className="flex items-center gap-4 text-base md:text-lg font-normal">
             <button
@@ -336,7 +246,11 @@ export const KidsWair = () => {
                  absolute text-xs text-gray-700`}
                 >
                   <CheckboxFilter
-                    options={["default", "by name", "by price"]}
+                    options={["by name", "by price"]}
+                    labels={[
+                      "By name",
+                      "By price",
+                    ]}
                     uniqueSelection={true}
                     onFilterChange={handleSorting}
                   />
@@ -353,28 +267,31 @@ export const KidsWair = () => {
               <div className="">
                 <h2 className="text-lg font-semibold">Filters</h2>
                 <ul className="mt-2 space-y-2 text-gray-400 fon">
-                  {subCategoryArray.map((category, index) => (
+                  {subCategoryList.map((category) => (
                     <li
-                      key={index}
+                      key={category?.id} // Utilisez une clé unique basée sur `category.id`
                       className={`cursor-pointer hover:text-primary capitalize ${
-                        selected === category[0]
+                        selected === category?.id
                           ? "text-primary"
                           : " dark:text-gray-400 text-gray-700"
                       }`}
                       onClick={() => {
-                        if (filtered?.value != category[0]) {
+                        if (filtered?.value !== category?.id) {
                           setFiltered({
                             type: "sub_categorie",
-                            value: category[0],
+                            value: category?.id,
                           });
-                          setSelected(category[0]);
+                          setSelected(category?.id);
                         } else {
                           setFiltered(null);
                           setSelected(null);
                         }
                       }}
                     >
-                      {`${category[0]} (${category[1] || 0})`}
+                      {(() => {
+                        const products = productsBySubCategory(category?.id);
+                        return products.length > 0 ? `${category?.title} (${products.length})` : null;
+                      })()}
                     </li>
                   ))}
                 </ul>
@@ -408,6 +325,11 @@ export const KidsWair = () => {
                       getMedianPrice(ProductsData),
                       getHighestPrice(ProductsData),
                     ]}
+                    labels={[
+                      getLowestPrice(ProductsData),
+                      getMedianPrice(ProductsData),
+                      getHighestPrice(ProductsData),
+                    ]}
                     onFilterChange={handleFilterPriceChange}
                     extra={"$"}
                   />
@@ -425,24 +347,23 @@ export const KidsWair = () => {
           >
             {sortedProducts()?.map((item) => (
               <div
-                className="dark:bg-gray-900 bg-white p-2 rounded-lg shadow-md hover:shadow-lg "
+                className="dark:bg-gray-900 bg-white pb-2 shadow-md hover:shadow-lg "
                 key={item.id}
               >
-                <Link to={`/product/${item.id}`}>
+                <Link to={`/product/${item.id}/${productHovered === item.id && photoHovered?.index !== undefined?photoHovered.index :item.variants[0].id}`}>
                   <img
                     src={
-                      photoHovered?.index !== undefined &&
-                      productHovered === item.id
-                        ? item.colors[photoHovered.index]
-                        : item.img
+                      productHovered === item.id && photoHovered?.index !== undefined
+                        ? photoHovered.img
+                        : apiBaseUrl + item?.variants[0]?.images[indexOfMainImageOfvariant(item?.variants[0])]?.image
                     }
                     alt={item.title}
-                    className="w-full h-64 object-cover rounded-md hover:outline-primary hover:outline hover:outline-1"
+                    className="w-full h-64 object-cover hover:outline-primary hover:outline hover:outline-1"
                   />
                 </Link>
                 {productHovered !== item.id && (
                   <div
-                    className="mt-2"
+                    className="mt-2 px-2"
                     onMouseEnter={() => {
                       setProductHovered(item.id);
                       setPhotoHovered(null);
@@ -458,15 +379,15 @@ export const KidsWair = () => {
                     <div
                       className={`flex items-center text-secondary font-medium text-lg `}
                     >
-                      ${item.discount > 0
-                        ? new_price(item.price, item.discount)
-                        : item.price}
-                      {item.discount > 0 && (
-                        <s className="ml-1 text-gray-500">${item.price}</s>
+                      ${thereIsDiscount(item).length > 0
+                        ? new_price(item?.variants[0]?.price, item.variants[thereIsDiscount(item)[1]]?.discount)
+                        : item?.variants[0]?.price}
+                      {thereIsDiscount(item).length > 0 && (
+                        <s className="ml-1 text-gray-500">${item?.variants[0]?.price}</s>
                       )}
-                      {item.discount > 0 && (
+                      {thereIsDiscount(item).length > 0 && (
                         <h3 className="ml-1 text-green-600">
-                          {item.discount}% discount
+                          {item.variants[thereIsDiscount(item)[1]]?.discount}% discount
                         </h3>
                       )}
                     </div>
@@ -476,21 +397,20 @@ export const KidsWair = () => {
                 {productHovered === item.id && (
                   <div
                     className="mt-2 p-2 rounded-md text-sm text-gray-700 flex flex-col gap-2"
-                    onMouseLeave={() => setProductHovered(-1)}
+                    //onMouseLeave={() => setProductHovered(-1)}
                   >
-                    <div className="flex gap-2 items-center">
-                      {item.colors.map((element, indice) => (
-                        <Link to={`/product/${item.id}`} key={indice}>
+                    <div className="flex gap-1 items-center">
+                      {item?.variants.map((element) => (
+                        <Link to={`/product/${item.id}/${element?.id}`} key={element.id}>
                           <img
-                            key={indice}
-                            src={element}
-                            className="w-8 h-8 hover:outline hover:outline-primary hover:outline-1"
+                            src={apiBaseUrl+element?.images[indexOfMainImageOfvariant(element)]?.image}
+                            className="w-10 h-10 hover:outline hover:outline-primary hover:outline-1"
                             onMouseEnter={() =>
-                              setPhotoHovered({ img: element, index: indice })
+                              setPhotoHovered({ img: apiBaseUrl+element?.images[indexOfMainImageOfvariant(element)]?.image, index: element.id })
                             }
-                            onMouseLeave={() => setPhotoHovered(null)}
+                            //onMouseLeave={() => setPhotoHovered(null)}
                             onClick={() =>
-                              (window.location.href = `/product/${item.id}`)
+                              (window.location.href = `/product/${item.id}/${element?.id}`)
                             }
                           />
                         </Link>
@@ -499,17 +419,21 @@ export const KidsWair = () => {
                     <div
                       className={`flex items-center text-secondary font-medium text-lg `}
                     >
-                      ${item.discount > 0
-                        ? new_price(item.price, item.discount)
-                        : item.price}
-                      {item.discount > 0 && (
-                        <s className="ml-1 text-gray-500">${item.price}</s>
+                      ${thereIsDiscount(item).length > 0
+                        ? new_price(
+                            item?.variants[0]?.price,
+                            item.variants[thereIsDiscount(item)[1]]?.discount
+                          ):  
+                          item?.variants[0]?.price}
+                      {thereIsDiscount(item).length > 0 && (
+                        <s className="ml-1 text-gray-500">${item?.variants[0]?.price}</s>
                       )}
-                      {item.discount > 0 && (
+                      {thereIsDiscount(item).length > 0 && (
                         <h3 className="ml-1 text-green-600">
-                          {item.discount}% discount
+                          {item.variants[thereIsDiscount(item)[1]]?.discount}% discount
                         </h3>
                       )}
+                      {/* Affichage du rabais s'il y en a un */}
                     </div>
                   </div>
                 )}
@@ -544,4 +468,4 @@ export const KidsWair = () => {
   );
 };
 
-export default KidsWair;
+export default Boutique;

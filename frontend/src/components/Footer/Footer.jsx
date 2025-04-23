@@ -44,7 +44,7 @@ const Footer = () => {
           {/* Company details */}
           <div className='flex flex-col gap-4 py-8 px-4' data-aos = 'zoom-in'>
             <div className='flex gap-2 items-center mb-4'><img src={footerLogo} alt="" className='w-12'/><h1 className='sm:text-3xl text-xl font-semibold'>Shopsy</h1></div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum in beatae ea recusandae blanditiis veritatis.</p>
+            <p>Shop stylish clothing for men, women, and kids online.</p>
           </div>
           {/* Important links */}
           <div className='flex flex-col gap-2 py-8 px-4' data-aos = 'zoom-in'>
